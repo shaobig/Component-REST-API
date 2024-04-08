@@ -5,13 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.shaobig.component.api</groupId>
-    <artifactId>Component REST API</artifactId>
+    <artifactId>component-rest-api</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -20,7 +15,12 @@
         <relativePath/>
     </parent>
 
-    <dependencies>>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
         <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
