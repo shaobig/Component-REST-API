@@ -1,6 +1,7 @@
 package com.shaobig.component.api.repository;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.InsertOneResult;
 import com.shaobig.component.api.entities.Element;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class ElementRepository  implements CreateRepository<Element> {
     @Override
     public Element create(Element element) {
         getElementCollection().insertOne(new Document(ELEMENT_NAME_KEY, element.getName()));
-        return element;
+        return new Element(element.getName());
     }
 
     public MongoCollection<Document> getElementCollection() {
