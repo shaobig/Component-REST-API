@@ -7,7 +7,7 @@ public class Element {
     protected Element() {
     }
 
-    public Element(String name) {
+    protected Element(String name) {
         this.name = name;
     }
 
