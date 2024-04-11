@@ -25,7 +25,7 @@ public class ElementRepository implements CreateRepository<Element>, ReadReposit
     @Override
     public Element read(String name) {
         Document document = getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first();
-        return new Element(document.getString(name));
+        return new Element(document.getString(ELEMENT_NAME_KEY));
     }
 
     public MongoCollection<Document> getElementCollection() {
