@@ -19,8 +19,8 @@ public class ElementService implements CreateService<Element>, ReadService<Eleme
     }
 
     @Override
-    public Element read(Element element) {
-        return getElementRepository().read(element.getName());
+    public Element read(String name) {
+        return getElementRepository().read(name);
     }
 
     public ElementRepository getElementRepository() {

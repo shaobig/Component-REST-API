@@ -6,7 +6,7 @@ import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ElementRepository implements CreateRepository<Element>, ReadRepository<String, Element> {
+public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element> {
 
     private static final String ELEMENT_NAME_KEY = "name";
 

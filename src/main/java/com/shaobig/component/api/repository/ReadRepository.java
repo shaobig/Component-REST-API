@@ -1,7 +1,7 @@
 package com.shaobig.component.api.repository;
 
-public interface ReadRepository<C, E> {
+public interface ReadRepository<E> {
 
-    E read(C criteria);
+    E read(String name);
 
 }

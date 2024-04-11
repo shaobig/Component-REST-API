@@ -24,9 +24,9 @@ public class ElementController implements CreateController<Element>, ReadControl
     }
 
     @Override
-    public ResponseEntity<Element> read(Element element) {
+    public ResponseEntity<Element> read(String name) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(getElementService().read(element));
+                .body(getElementService().read(name));
     }
 
     public ElementService getElementService() {

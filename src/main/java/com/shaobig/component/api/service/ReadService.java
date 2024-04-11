@@ -1,5 +1,7 @@
 package com.shaobig.component.api.service;
 
 public interface ReadService<E> {
-    E read(E entity);
+
+    E read(String name);
+
 }
