@@ -5,7 +5,7 @@ import com.shaobig.component.api.repository.ElementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ElementService implements CreateService<Element> {
+public class ElementService implements CreateService<Element>, ReadService<Element> {
 
     private final ElementRepository elementRepository;
 
@@ -16,6 +16,11 @@ public class ElementService implements CreateService<Element> {
     @Override
     public Element create(Element element) {
         return getElementRepository().create(element);
+    }
+
+    @Override
+    public Element read(Element element) {
+        return getElementRepository().read(element.getName());
     }
 
     public ElementRepository getElementRepository() {
