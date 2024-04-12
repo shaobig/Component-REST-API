@@ -6,8 +6,7 @@ public class Element {
 
     private String name;
 
-    protected Element() {
-    }
+    protected Element() {}
 
     public Element(String name) {
         this.name = name;
@@ -15,6 +14,10 @@ public class Element {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

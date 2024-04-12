@@ -6,7 +6,6 @@ import com.mongodb.MongoWriteConcernException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.shaobig.component.api.entities.Element;
-import org.bson.Document;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ElementRepositoryTest {
 
-    private MongoCollection<Document> elementCollection;
+    private MongoCollection<Element> elementCollection;
 
     private ElementRepository elementRepository;
 
