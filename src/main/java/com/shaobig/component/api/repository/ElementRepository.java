@@ -5,6 +5,8 @@ import com.shaobig.component.api.entities.Element;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element> {
 
@@ -24,8 +26,11 @@ public class ElementRepository implements CreateRepository<Element>, ReadReposit
 
     @Override
     public Element read(String name) {
-        Document document = getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first();
-        return new Element(document.getString(ELEMENT_NAME_KEY));
+        return Optional.ofNullable(getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first()).stream()
+                .map(document -> document.getString(ELEMENT_NAME_KEY))
+                .map(Element::new)
+                .findFirst()
+                .orElseThrow(() -> new NullPointerException(String.format("Can't find the element %s", name)));
     }
 
     public MongoCollection<Document> getElementCollection() {
