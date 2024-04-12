@@ -20,7 +20,7 @@ public class ElementService implements CreateService<Element>, ReadService<Eleme
 
     @Override
     public Element read(String name) {
-        return getElementRepository().read(name);
+        return getElementRepository().read(name).orElseThrow(() -> new RuntimeException(String.format("Can't find element '%s'", name)));
     }
 
     public ElementRepository getElementRepository() {

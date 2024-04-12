@@ -5,6 +5,8 @@ import com.shaobig.component.api.entities.Element;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element> {
 
@@ -23,8 +25,8 @@ public class ElementRepository implements CreateRepository<Element>, ReadReposit
     }
 
     @Override
-    public Element read(String name) {
-        return getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first();
+    public Optional<Element> read(String name) {
+        return Optional.ofNullable(getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first());
     }
 
     public MongoCollection<Element> getElementCollection() {
