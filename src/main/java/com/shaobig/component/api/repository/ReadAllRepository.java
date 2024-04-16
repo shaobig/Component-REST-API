@@ -2,8 +2,8 @@ package com.shaobig.component.api.repository;
 
 import java.util.List;
 
-public interface ReadAllRepository<T> {
+public interface ReadAllRepository<E> {
 
-    List<T> readAll();
+    List<E> readAll();
 
 }
