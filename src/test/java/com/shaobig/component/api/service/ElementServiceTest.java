@@ -47,12 +47,12 @@ public class ElementServiceTest {
     @Test
     void read() {
         String sourceName = "ELEMENT_NAME";
-        Optional<Element> sourceFoundElement = Optional.of(new Element("FOUND_ELEMENT_NAME"));
-        Mockito.when(elementRepository.read(Mockito.any())).thenReturn(sourceFoundElement);
+        Optional<Element> sourceElement = Optional.of(new Element("ELEMENT_NAME"));
+        Mockito.when(elementRepository.read(Mockito.any())).thenReturn(sourceElement);
 
         Element actual = elementService.read(sourceName);
 
-        Element expected = new Element("FOUND_ELEMENT_NAME");
+        Element expected = new Element("ELEMENT_NAME");
         assertEquals(expected, actual);
     }
 

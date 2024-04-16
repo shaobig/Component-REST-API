@@ -78,15 +78,15 @@ public class ElementRepositoryTest {
     }
 
     static List<Arguments> readSourceData() {
-        return List.of(Arguments.of(null, Optional.empty()), Arguments.of(new Element("FOUND_ELEMENT_NAME"), Optional.of(new Element("FOUND_ELEMENT_NAME"))));
+        return List.of(Arguments.of(null, Optional.empty()), Arguments.of(new Element("ELEMENT_NAME"), Optional.of(new Element("ELEMENT_NAME"))));
     }
 
     @ParameterizedTest
     @MethodSource(value = "readSourceData")
-    void read(Element sourceFoundElement, Optional<Element> expected) {
+    void read(Element sourceElement, Optional<Element> expected) {
         String sourceName = "ELEMENT_NAME";
         FindIterable<Element> findIterable = Mockito.mock(FindIterable.class);
-        Mockito.when(findIterable.first()).thenReturn(sourceFoundElement);
+        Mockito.when(findIterable.first()).thenReturn(sourceElement);
         Mockito.when(elementCollection.find(Mockito.<Bson>any())).thenReturn(findIterable);
 
         Optional<Element> actual = elementRepository.read(sourceName);
