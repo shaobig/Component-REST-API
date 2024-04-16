@@ -37,4 +37,17 @@ public class ElementControllerTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void read() {
+        String name = "ELEMENT_NAME";
+        Element sourceFoundElement = new Element("FOUND_ELEMENT_NAME");
+        Mockito.when(elementService.read(Mockito.any())).thenReturn(sourceFoundElement);
+
+        ResponseEntity<Element> actual = elementController.read(name);
+
+        ResponseEntity<Element> expected = ResponseEntity.status(HttpStatus.OK)
+                .body(new Element("FOUND_ELEMENT_NAME"));
+        assertEquals(expected, actual);
+    }
+
 }
