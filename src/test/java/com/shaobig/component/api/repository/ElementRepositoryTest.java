@@ -18,9 +18,11 @@ import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ElementRepositoryTest {
 
@@ -90,6 +92,22 @@ public class ElementRepositoryTest {
         Mockito.when(elementCollection.find(Mockito.<Bson>any())).thenReturn(findIterable);
 
         Optional<Element> actual = elementRepository.read(sourceName);
+
+        assertEquals(expected, actual);
+    }
+
+    static Stream<Arguments> readAllSourceData() {
+        return Stream.of(Arguments.of(Spliterators.emptySpliterator(), List.of()), Arguments.of(Spliterators.spliterator(List.of(new Element("1"), new Element("2")), 0), List.of(new Element("1"), new Element("2"))));
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "readAllSourceData")
+    void readAll(Spliterator<Element> sourceSplitIterator, List<Element> expected) {
+        FindIterable<Element> findIterable = Mockito.mock(FindIterable.class);
+        Mockito.when(findIterable.spliterator()).thenReturn(sourceSplitIterator);
+        Mockito.when(elementCollection.find()).thenReturn(findIterable);
+
+        List<Element> actual = elementRepository.readAll();
 
         assertEquals(expected, actual);
     }

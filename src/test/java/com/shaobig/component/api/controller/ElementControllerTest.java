@@ -8,6 +8,8 @@ import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ElementControllerTest {
@@ -47,6 +49,18 @@ public class ElementControllerTest {
 
         ResponseEntity<Element> expected = ResponseEntity.status(HttpStatus.OK)
                 .body(new Element("ELEMENT_NAME"));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void readAll() {
+        List<Element> sourceElementList = List.of(new Element("1"), new Element("2"));
+        Mockito.when(elementService.readAll()).thenReturn(sourceElementList);
+
+        ResponseEntity<List<Element>> actual = elementController.readAll();
+
+        ResponseEntity<List<Element>> expected = ResponseEntity.status(HttpStatus.OK)
+                .body(List.of(new Element("1"), new Element("2")));
         assertEquals(expected, actual);
     }
 
