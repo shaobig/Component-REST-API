@@ -1,10 +1,16 @@
 package com.shaobig.component.api.configuration;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import com.shaobig.component.api.entities.Element;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,8 +22,28 @@ public class DatabaseConfiguration {
     private static final String ELEMENT_COLLECTION_NAME = "elements";
 
     @Bean
-    public MongoClient mongoClient() {
-        return MongoClients.create(CONNECTION_STRING);
+    public CodecProvider pojoCoderProvider() {
+        return PojoCodecProvider.builder()
+                .register(Element.class)
+                .build();
+    }
+
+    @Bean
+    public CodecRegistry codecRegistry(CodecProvider pojoCodecProvider) {
+        return CodecRegistries.fromRegistries(CodecRegistries.fromProviders(pojoCodecProvider), MongoClientSettings.getDefaultCodecRegistry());
+    }
+
+    @Bean
+    public MongoClientSettings mongoClientSettings(CodecRegistry codecRegistry) {
+        return MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(CONNECTION_STRING))
+                .codecRegistry(codecRegistry)
+                .build();
+    }
+
+    @Bean
+    public MongoClient mongoClient(MongoClientSettings mongoClientSettings) {
+        return MongoClients.create(mongoClientSettings);
     }
 
     @Bean
@@ -26,8 +52,8 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    public MongoCollection<Document> elementCollection(MongoDatabase mongoDatabase) {
-        return mongoDatabase.getCollection(ELEMENT_COLLECTION_NAME);
+    public MongoCollection<Element> elementCollection(MongoDatabase mongoDatabase) {
+        return mongoDatabase.getCollection(ELEMENT_COLLECTION_NAME, Element.class);
     }
 
 }

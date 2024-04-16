@@ -4,19 +4,27 @@ import com.mongodb.MongoCommandException;
 import com.mongodb.MongoException;
 import com.mongodb.MongoWriteConcernException;
 import com.mongodb.MongoWriteException;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.shaobig.component.api.entities.Element;
-import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ElementRepositoryTest {
 
-    private MongoCollection<Document> elementCollection;
+    private MongoCollection<Element> elementCollection;
 
     private ElementRepository elementRepository;
 
@@ -66,6 +74,23 @@ public class ElementRepositoryTest {
         Element actual = elementRepository.create(sourceElement);
 
         Element expected = new Element("ELEMENT_NAME");
+        assertEquals(expected, actual);
+    }
+
+    static List<Arguments> readSourceData() {
+        return List.of(Arguments.of(null, Optional.empty()), Arguments.of(new Element("ELEMENT_NAME"), Optional.of(new Element("ELEMENT_NAME"))));
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "readSourceData")
+    void read(Element sourceElement, Optional<Element> expected) {
+        String sourceName = "ELEMENT_NAME";
+        FindIterable<Element> findIterable = Mockito.mock(FindIterable.class);
+        Mockito.when(findIterable.first()).thenReturn(sourceElement);
+        Mockito.when(elementCollection.find(Mockito.<Bson>any())).thenReturn(findIterable);
+
+        Optional<Element> actual = elementRepository.read(sourceName);
+
         assertEquals(expected, actual);
     }
 

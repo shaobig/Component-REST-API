@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/element")
-public class ElementController implements CreateController<Element> {
+public class ElementController implements CreateController<Element>, ReadController<Element> {
 
     private final ElementService elementService;
 
@@ -21,6 +21,12 @@ public class ElementController implements CreateController<Element> {
     public ResponseEntity<Element> create(Element element) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(getElementService().create(element));
+    }
+
+    @Override
+    public ResponseEntity<Element> read(String name) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(getElementService().read(name));
     }
 
     public ElementService getElementService() {

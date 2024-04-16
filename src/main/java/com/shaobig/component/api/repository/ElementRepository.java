@@ -1,29 +1,35 @@
 package com.shaobig.component.api.repository;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.result.InsertOneResult;
 import com.shaobig.component.api.entities.Element;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public class ElementRepository  implements CreateRepository<Element> {
+public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element> {
 
     private static final String ELEMENT_NAME_KEY = "name";
 
-    private final MongoCollection<Document> elementCollection;
+    private final MongoCollection<Element> elementCollection;
 
-    public ElementRepository(MongoCollection<Document> elementCollection) {
+    public ElementRepository(MongoCollection<Element> elementCollection) {
         this.elementCollection = elementCollection;
     }
 
     @Override
     public Element create(Element element) {
-        getElementCollection().insertOne(new Document(ELEMENT_NAME_KEY, element.getName()));
+        getElementCollection().insertOne(element);
         return new Element(element.getName());
     }
 
-    public MongoCollection<Document> getElementCollection() {
+    @Override
+    public Optional<Element> read(String name) {
+        return Optional.ofNullable(getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first());
+    }
+
+    public MongoCollection<Element> getElementCollection() {
         return elementCollection;
     }
 
