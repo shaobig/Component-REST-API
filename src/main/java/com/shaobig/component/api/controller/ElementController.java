@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/element")
-public class ElementController implements CreateController<Element>, ReadController<Element> {
+public class ElementController implements CreateController<Element>, ReadController<Element>, ReadAllController<Element> {
 
     private final ElementService elementService;
 
@@ -27,6 +29,12 @@ public class ElementController implements CreateController<Element>, ReadControl
     public ResponseEntity<Element> read(String name) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(getElementService().read(name));
+    }
+
+    @Override
+    public ResponseEntity<List<Element>> readAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(getElementService().readAll());
     }
 
     public ElementService getElementService() {
