@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,6 +54,17 @@ public class ElementServiceTest {
         Element actual = elementService.read(sourceName);
 
         Element expected = new Element("ELEMENT_NAME");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void readAll() {
+        List<Element> sourceElementList = List.of(new Element("1"), new Element("2"));
+        Mockito.when(elementRepository.readAll()).thenReturn(sourceElementList);
+
+        List<Element> actual = elementService.readAll();
+
+        List<Element> expected = List.of(new Element("1"), new Element("2"));
         assertEquals(expected, actual);
     }
 
