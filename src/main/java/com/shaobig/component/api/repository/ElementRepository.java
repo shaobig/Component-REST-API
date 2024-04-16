@@ -4,11 +4,14 @@ import com.mongodb.client.MongoCollection;
 import com.shaobig.component.api.entities.Element;
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StreamUtils;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Repository
-public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element> {
+public class ElementRepository implements CreateRepository<Element>, ReadRepository<Element>, ReadAllRepository<Element> {
 
     private static final String ELEMENT_NAME_KEY = "name";
 
@@ -27,6 +30,11 @@ public class ElementRepository implements CreateRepository<Element>, ReadReposit
     @Override
     public Optional<Element> read(String name) {
         return Optional.ofNullable(getElementCollection().find(new Document(ELEMENT_NAME_KEY, name)).first());
+    }
+
+    @Override
+    public List<Element> readAll() {
+        return StreamSupport.stream(getElementCollection().find().spliterator(), false).toList();
     }
 
     public MongoCollection<Element> getElementCollection() {
